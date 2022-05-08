@@ -11,12 +11,12 @@ contract Lottery{
     }
 
     receive() external payable{
-        require(msg.value>=2 ether);
+        require(msg.value>=2 ether,"Minimum 2 ether required");
         participants.push(payable(msg.sender));
     }
 
     function getBalance() public view returns(uint){
-        require(msg.sender==manager);
+        require(msg.sender==manager,"Access Denied!");
         return address(this).balance;
     }
 
@@ -25,8 +25,8 @@ contract Lottery{
     }
 
     function selectWinner() public {
-        require(msg.sender==manager);
-        require(participants.length>=3);
+        require(msg.sender==manager,"Access Denied!");
+        require(participants.length>=3,"Minimum 3 participants required");
         uint r=random();
         uint index=r%participants.length;
         address payable winner;
